@@ -1,0 +1,43 @@
+{
+  "authors": [
+    {
+      "name": "Robert Premar",
+      "email": "robert.premar@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "description": "Mock any function that exists in global namespace",
+  "keywords" : [
+    "mock",
+    "function",
+    "global",
+    "mock time",
+    "mock sleep"
+  ],
+  "readme": "./README.md",
+  "license": "MIT",
+  "require": {
+    "php": "^7.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Robier\\MockGlobalFunction\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Robier\\MockGlobalFunction\\Test\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit --process-isolation",
+    "test:coverage": "phpunit --process-isolation --coverage-text"
+  },
+  "scripts-descriptions": {
+    "test": "Run all tests in process isolation mode",
+    "test:coverage": "Run all tests in process isolation mode with text coverage"
+  }
+}

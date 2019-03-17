@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ $# -eq 0 ]; then
+    echo "No script provided!"
+
+    exit 1
+fi
+
+docker run --rm -v $(pwd):/app -w /app -u $(id -u) mock-global-functions:1.0 ${@}

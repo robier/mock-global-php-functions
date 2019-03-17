@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
+readonly BASE_DIR=$(cd "$(dirname "$0")"; pwd)
+
+docker build ${BASE_DIR} -t mock-global-functions:1.0

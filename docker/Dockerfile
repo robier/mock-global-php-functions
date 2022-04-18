@@ -1,20 +1,31 @@
-FROM php:7.1-cli-alpine
+FROM php:7.3-cli-alpine
 
-RUN set -xe && \
-    apk add --no-cache --update git && \
-    apk add --no-cache --update --virtual .phpize-deps ${PHPIZE_DEPS} && \
-    # download and install composer
-    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    php composer-setup.php --install-dir=/usr/bin --filename=composer && \
-    php -r "unlink('composer-setup.php');" && \
-    # update pecl
-    pecl channel-update pecl.php.net && \
-    # install pecl extensions
-    pecl install xdebug && \
-    # enable extensions installed via pecl
-    docker-php-ext-enable xdebug && \
-    # cleanup
-    apk del --purge .phpize-deps && \
-    rm -rf /tmp/* && \
-    rm -rf /usr/share/php7 && \
-    rm -rf /var/cache/apk/*
+ARG HOST_USER_ID
+ARG HOST_GROUP_ID
+
+RUN apk --update --no-cache add \
+        autoconf \
+        build-base \
+        bzip2-dev \
+        zlib-dev \
+        git \
+        unzip
+
+# PECL extensions
+RUN pecl install xdebug && \
+    docker-php-ext-enable xdebug
+
+# Composer
+RUN curl --show-error https://getcomposer.org/installer | php -- \
+    --filename=composer \
+    --install-dir=/usr/bin
+
+RUN addgroup -g ${HOST_GROUP_ID} app && \
+    adduser -s /bin/sh/ -D -u ${HOST_USER_ID} -G app app
+
+USER app
+
+RUN mkdir -p /home/app/src
+
+VOLUME /home/app/src
+WORKDIR /home/app/src

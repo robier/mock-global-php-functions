@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 
-set -e
+function runDocker
+{
+    local -r dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-if [ $# -eq 0 ]; then
-    echo "No script provided!"
+    local -r applicationName=$(cat "${dir}/projectName");
 
-    exit 1
-fi
+    if [[ $# -eq 0 ]]; then
+        docker run --rm -v $(pwd):/home/app/src -it ${applicationName} "sh"
+    else
+        docker run --rm -v $(pwd):/home/app/src -i ${applicationName} "$@"
+    fi
+}
 
-docker run --rm -v $(pwd):/app -w /app -u $(id -u) mock-global-functions:1.0 ${@}
+runDocker "$@"

@@ -138,4 +138,22 @@ PHP;
 
         $this->assertSame(20, \Test\Fake\Registry3\time());
     }
+
+    public function testFunctionCanNotBeMockedIfAlreadyExistingInNamespace(): void
+    {
+        $php = <<<PHP
+    namespace Test\Fake\Bar {
+        function rand(): int {
+            return 0;
+        }
+    }
+PHP;
+        eval($php);
+
+        Registry::register('Test\Fake\Bar', 'rand', static function(): int {
+            return 1;
+        })->enable();
+
+        self::assertSame(0, \Test\Fake\Bar\rand());
+    }
 }

@@ -18,7 +18,7 @@ This library allows you to mock any global PHP functions to return predefined va
 
 This library was created after I saw implementation of Symfony's [ClockMock](https://github.com/symfony/symfony/blob/4.2/src/Symfony/Bridge/PhpUnit/ClockMock.php)
 component for mocking PHP native functions related to time. I was curious how to make a mechanism for
-mocking any PHP global function so I created this small library.
+mocking any PHP global function, so I created this small library.
 
 This is achieved by [PHP's namespace fallback policy](http://php.net/manual/en/language.namespaces.fallback.php):
 
@@ -44,19 +44,20 @@ $time = time(); // This call can be mocked, a call to \time() can't.
   limitation as you only need to define a mock before any testing in your tests. It's also recommend that you
   **run your tests as isolated process**.
 
-## Api
+### Api
 
 At the moment there are 2 mocking objects that developers can use:
 - `MockFunction` - mock any given function with your own anonymous function
-- `FreezeClock` - mock time/sleep/date related functions so they are in sync
+- `FreezeClock` - mock time/sleep/date related functions, so they are in sync
 
-## MockFunction
+### MockFunction
 
 Object that can mock any function from global namespace. Mock is active as long as magic method `__destruct`
-is called on that mock or it's disabled manually via `disable` method. In that way you do not need to manually turn off mock
-while writing tests, because as soon as current scope exists, mock is disabled and in case of tests you have clean slate.
+is not called on that mock, or it's disabled manually via `disable` method. In that way you do not need to manually turn off mock
+while writing tests, because as soon as current scope exists, mock is disabled, and you have clean slate.
 
-**Note:** When creating mock use static callback instead of regular one. This prevents them from having the current class automatically bound to them.  
+**Note:** When creating mock use static callback instead of regular one. This prevents them from having the current
+class automatically bound to them.
 
 Example:
 ```php
@@ -67,7 +68,7 @@ $mock = new MockFunction('app', 'rand', static function(){
 
 namespace app {
     // some logic
-    $randomNumber = rand(); // random number will be 5
+    $randomNumber = rand(); // random number will be always 5
     // some logic
 }
 ```
@@ -86,7 +87,7 @@ namespace app {
 }
 ```
 
-## FreezeClock
+### FreezeClock
 
 Handy object that can freeze time in given namespace.
 
@@ -94,7 +95,7 @@ Handy factory methods:
 - `atZero` - stops time at timestamp 0 
 - `atTime` - stops time at provided time
 - `atMicrotime` - stops time at provided microtime
-- `atNow` - stops current time
+- `atNow` - stops at current time
 
 Functions affected:
 - `date` - returns freeze formatted time
@@ -114,6 +115,10 @@ $mock = new FreezeClock::atZero('app/testNamespace');
 \app\testNamespace\microtime(true); // would return 15.0 also
 ```
 
-## Tests
+### Tests
 
 First run `docker/build` to build a container and then `docker/run composer run test` for running all tests.
+
+### Contribution
+
+Feel free to contribute!

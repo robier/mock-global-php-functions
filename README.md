@@ -1,7 +1,5 @@
 <p align="center">
-    <a href="https://travis-ci.org/robier/mock-global-php-functions">
-        <img src="https://travis-ci.org/robier/mock-global-php-functions.svg?branch=master" alt="Build Status">
-    </a>
+    <img src="https://github.com/robier/mock-global-php-functions/actions/workflows/test/badge.svg" alt="Build Status">
     <a href="https://codecov.io/gh/robier/mock-global-php-functions">
         <img src="https://codecov.io/gh/robier/mock-global-php-functions/branch/master/graph/badge.svg" />
     </a>

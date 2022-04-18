@@ -67,12 +67,28 @@ PHP;
         MockFunction::inClassNamespace(\Test\Fake\MockFunction\TestClass::class, $functionName);
     }
 
-    public function testFailNotExistingClass(): void
+    /**
+     * @requires PHP < 8
+     */
+    public function testFailNotExistingClassInPhp7(): void
     {
         $notExistingClass = \Test\NotExisting\TestClass::class;
 
         $this->expectException(ReflectionException::class);
         $this->expectExceptionMessage(sprintf('Class %s does not exist', $notExistingClass));
+
+        MockFunction::inClassNamespace($notExistingClass, 'time');
+    }
+
+    /**
+     * @requires PHP >= 8
+     */
+    public function testFailNotExistingClassInPhp8(): void
+    {
+        $notExistingClass = \Test\NotExisting\TestClass::class;
+
+        $this->expectException(ReflectionException::class);
+        $this->expectExceptionMessage(sprintf('Class "%s" does not exist', $notExistingClass));
 
         MockFunction::inClassNamespace($notExistingClass, 'time');
     }

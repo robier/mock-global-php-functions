@@ -95,7 +95,8 @@ final class Registry
     {
         $mock = '\\' . self::class;
 
-        if (\function_exists(\sprintf('%s/%s', $namespace, $function))) {
+        if (\function_exists(\sprintf('%s\%s', $namespace, $function))) {
+            // we hope that we already have registered mock function
             return;
         }
 

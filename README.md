@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://github.com/robier/mock-global-php-functions/actions/workflows/test/badge.svg" alt="Build Status">
+    <img src="https://github.com/robier/mock-global-php-functions/actions/workflows/test.yml/badge.svg" alt="Build Status">
     <a href="https://codecov.io/gh/robier/mock-global-php-functions">
         <img src="https://codecov.io/gh/robier/mock-global-php-functions/branch/master/graph/badge.svg" />
     </a>

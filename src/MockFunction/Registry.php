@@ -71,7 +71,7 @@ final class Registry
     /**
      * Invoke mocked function if it's defined
      */
-    public static function invoke(string $namespace, string $functionName, ...$args)
+    public static function invoke(string $namespace, string $functionName, &...$args)
     {
         if (!isset(self::$registry[$namespace])) {
             throw MockInvokeException::namespaceNotRegistered($namespace);
@@ -84,7 +84,7 @@ final class Registry
         /** @var Mock $mock */
         $mock = self::$registry[$namespace][$functionName];
 
-        return \call_user_func_array($mock, $args);
+        return $mock(...$args);
     }
 
     /**
@@ -100,10 +100,14 @@ final class Registry
             return;
         }
 
+        $paramBuilder = new ParamBuilder($function);
+        $parameters = $paramBuilder->parameters();
+        $arguments = $paramBuilder->arguments();
+
         $template = <<<PHP
 namespace $namespace {
-    function $function(){
-        return $mock::invoke(__NAMESPACE__, '$function', ...func_get_args());
+    function $function($parameters){
+        return $mock::invoke(__NAMESPACE__, '$function', $arguments);
     }
 }
 PHP;

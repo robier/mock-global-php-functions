@@ -90,13 +90,15 @@ final class Mock
     /**
      * @return mixed
      */
-    public function __invoke()
+    public function __invoke(&...$items)
     {
-        if($this->isEnabled()){
-            return \call_user_func_array($this->function, \func_get_args());
+        if ($this->isEnabled()) {
+            $function = $this->function;
+            return $function(...$items);
         }
 
         // call function in global namespace if mock is disabled
-        return \call_user_func_array('\\' . $this->name, \func_get_args());
+        $function = '\\' . $this->name;
+        return $function(...$items);
     }
 }

@@ -220,4 +220,21 @@ PHP;
 
         $this->assertNotSame(0, $testObject->testRand());
     }
+
+    public function testFunctionThatPassesParamsByReference(): void
+    {
+        $mock = new MockFunction(
+            'test',
+            'getmxrr',
+            static function (string $_, array &$hosts): bool {
+                $hosts = ['foo.bar'];
+                return true;
+            }
+        );
+
+        $test = [];
+
+        self::assertTrue(\test\getmxrr('test', $test));
+        self::assertSame(['foo.bar'], $test);
+    }
 }
